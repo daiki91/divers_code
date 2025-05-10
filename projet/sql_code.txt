@@ -1,0 +1,59 @@
+CREATE TABLE professeur(
+   id_professeur VARCHAR(50),
+   nom_professeur VARCHAR(50),
+   prenom_professeur VARCHAR(50),
+   niveau_enseigner VARCHAR(50),
+   PRIMARY KEY(id_professeur)
+);
+
+CREATE TABLE classe(
+   id_classe VARCHAR(50),
+   nom_classe VARCHAR(50),
+   nombre_place VARCHAR(50),
+   PRIMARY KEY(id_classe)
+);
+
+CREATE TABLE matiere(
+   nom_matiere VARCHAR(50),
+   PRIMARY KEY(nom_matiere)
+);
+
+CREATE TABLE ecole(
+   id_ecole VARCHAR(50),
+   nom_ecole VARCHAR(50),
+   lieu_ecole VARCHAR(50),
+   nombre_de_classe VARCHAR(50),
+   nombre_de_prof VARCHAR(50),
+   id_classe VARCHAR(50) NOT NULL,
+   PRIMARY KEY(id_ecole),
+   FOREIGN KEY(id_classe) REFERENCES classe(id_classe)
+);
+
+CREATE TABLE eleve(
+   id_etudiant VARCHAR(50),
+   nom VARCHAR(50) NOT NULL,
+   prenom VARCHAR(50),
+   date_de_naissance DATE,
+   niveau_etude VARCHAR(50),
+   id_ecole VARCHAR(50) NOT NULL,
+   PRIMARY KEY(id_etudiant),
+   FOREIGN KEY(id_ecole) REFERENCES ecole(id_ecole)
+);
+
+CREATE TABLE enseigne(
+   id_ecole VARCHAR(50),
+   id_professeur VARCHAR(50),
+   nom_matiere VARCHAR(50),
+   PRIMARY KEY(id_ecole, id_professeur, nom_matiere),
+   FOREIGN KEY(id_ecole) REFERENCES ecole(id_ecole),
+   FOREIGN KEY(id_professeur) REFERENCES professeur(id_professeur),
+   FOREIGN KEY(nom_matiere) REFERENCES matiere(nom_matiere)
+);
+
+CREATE TABLE apprend(
+   id_etudiant VARCHAR(50),
+   nom_matiere VARCHAR(50),
+   PRIMARY KEY(id_etudiant, nom_matiere),
+   FOREIGN KEY(id_etudiant) REFERENCES eleve(id_etudiant),
+   FOREIGN KEY(nom_matiere) REFERENCES matiere(nom_matiere)
+);
